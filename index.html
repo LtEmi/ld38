@@ -25,36 +25,6 @@
   }
   function create() {
     game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
-    level = null;
- //   LEVELS = new Levels();
- //   showTitleScreen();
- //   var space_key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
- //   space_key.onDown.add(showLevelsMenu, this);
+	var bg = game.add.image(0,0,'bg');
   }
- // function showTitleScreen() {
- //   titleScreen = game.add.image(0, 0, 'ld36_title_screen_001');
- //   titleScreen.inputEnabled = true;
- //   titleScreen.events.onInputDown.addOnce(initGame, this);
- //   titleScreen.events.onInputDown.addOnce(function() {
- //     Music.run();
- //   }, this);
- // }
- // function showLevelsMenu() {
- //   LEVELS.manageLevelsMenu();
- //   if (LEVELS.hidden) {
- //     initGame();
- //   } else {
- //     game.input.onDown.removeAll();
- //     titleScreen.destroy();
- //     if (level && level.grid) {
- //       level.grid.cleanUp();
- //     }
- //   }
- // }
- // function initGame() {
- //   self.game.add.image(0, 0, 'ld36_bg_001');
- //   var slotsImg = self.game.add.image(580, 175, 'ld36_slots_001');
- //   slotsImg.blendMode = PIXI.blendModes.COLOR_BURN;
- //   Level.run();
- // }
 </script>

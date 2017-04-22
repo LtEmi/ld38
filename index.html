@@ -32,35 +32,60 @@
 		bg = game.add.image(0, 0, 'bg');
 		object1 = game.add.sprite(400, 165, 'object1');
 		object1.inputEnabled = true;
-		object1.events.onInputDown.addOnce(displaySpeech, this);
+		console.log('foo');
+		object1.events.onInputOver.add(displaySpeech, this);
+		object1.events.onInputOut.add(hideSpeech, this);
+		object1.events.onInputDown.add(objectMenu, this);
 	}
 	
 	function displaySpeech() {
 		currentSpeech ++;
 		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
 		characterSpeech.text = "Hello World!";
-		var character = game.add.sprite(10,300,'character');
-		var speechBubble = game.add.sprite(180,310,'bubble');
-		object1.events.onInputDown.addOnce(function showNext() {
-			if (currentSpeech > 0) {
-				characterSpeech.destroy();
-				character.destroy();
-				speechBubble.destroy();
-				currentSpeech = 0
-				object1.events.onInputDown.addOnce(displaySpeech, this);
-			}
-		},this);
+		character = game.add.sprite(10,300,'character');
+		speechBubble = game.add.sprite(180,310,'bubble');
+//		object1.events.onInputDown.addOnce(function showNext() {
+//			if (currentSpeech > 0) {
+//				characterSpeech.destroy();
+//				character.destroy();
+//				speechBubble.destroy();
+//				currentSpeech = 0
+//				object1.events.onInputDown.addOnce(displaySpeech, this);
+//			}
+//		},this);
+	}
+	function hideSpeech() {
+        characterSpeech.destroy();
+		character.destroy();
+		speechBubble.destroy();
+		currentSpeech = 0;
 	}
 	
-//function displaySpeech () {
-//	var character = game.add.sprite(10,300,'character');
-//	var speechBubble = game.add.sprite(180,310,'bubble');
-//	characterSpeech.text = "Hello World!";
-//}
-//
-//function endSpeech () {
-//	speechBubble.destroy();
-//	characterSpeech.destroy();
-//	character.destroy();
-//}
+	function objectMenu() {
+//		UItake = game.add.sprite(150,10,'UItake');
+//		UIleave = game.add.sprite(450,10,'UIleave');
+//		UItake.inputEnabled = true;
+//		UIleave.inputEnabled = true;
+//		UIleave.events.onInputDown.addOnce(displaySpeech, this);
+//		UItake.events.onInputDown.addOnce(function dragObject(){
+
+//		if (currentSpeech > 0) {	
+//			hideSpeech();
+//		}
+
+			object1.input.enableDrag();
+			object1.events.onDragStart.add(UItakeDisplay, this);
+			object1.events.onDragStop.add(UItakeHide, this);
+//		});
+	}
+	
+	function UItakeDisplay() {
+		hideSpeech();
+		UItake = game.add.sprite(320,500,'UItake');
+	}
+	function UItakeHide() {
+		UItake.destroy();
+	}
+	
+	
 </script>

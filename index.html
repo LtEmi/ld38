@@ -1,30 +1,66 @@
 <!doctype html> 
 <html lang="en"> 
 <head> 
-  <meta charset="UTF-8" />
-  <title>LD38</title>
-  <!-- <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">-->
-  <link rel="stylesheet" href="style/style.css" type="text/css">
-  <script type="text/javascript" src="vendor/phaser.min.js"></script>
-  <script type="text/javascript" src="data/parameters.js"></script>
+	<meta charset="UTF-8" />
+	<title>LD38</title>
+	<!-- <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="assets/favicon.ico" type="image/x-icon">-->
+	<link rel="stylesheet" href="style/style.css" type="text/css">
+	<script type="text/javascript" src="vendor/phaser.min.js"></script>
+	<script type="text/javascript" src="data/parameters.js"></script>
 </head>
 <body>
-  <div id="ld38"></div>
-<p>
-    A game made in less than 48h for the <a href="http://ldjam.com/">Ludum Dare 38</a> by <a href="http://twitter.com/ltemi">@ltemi</a>. 
-  <p>
-  <p>See on <a href="https://github.com/LtEmi/ld38">Github</a></p>
+	<div id="ld38"></div>
+	<p>
+		<a href="http://ldjam.com/">Ludum Dare 38</a> by <a href="https://twitter.com/ltemi">@ltemi</a>. 
+	</p>
+	<p>
+		See on <a href="https://github.com/LtEmi/ld38">Github</a>
+	</p>
 </body>
 
 <script type="text/javascript">
-  var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS, 'ld38', { preload: preload, create: create });
-  var id = 0;
-    function preload() {
-    for (i in ASSETS) { game.load[ASSETS[i].type](ASSETS[i].name, ASSETS[i].src); };
-  }
-  function create() {
-    game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
-	var bg = game.add.image(0,0,'bg');
-  }
+	var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS, 'ld38', { preload: preload, create: create });
+	var currentSpeech = 0;
+	
+	function preload() {
+		for (i in ASSETS) { game.load[ASSETS[i].type](ASSETS[i].name, ASSETS[i].src); };
+	}
+	
+	function create() {
+		game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
+		bg = game.add.image(0, 0, 'bg');
+		object1 = game.add.sprite(400, 165, 'object1');
+		object1.inputEnabled = true;
+		object1.events.onInputDown.addOnce(displaySpeech, this);
+	}
+	
+	function displaySpeech() {
+		currentSpeech ++;
+		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
+		characterSpeech.text = "Hello World!";
+		var character = game.add.sprite(10,300,'character');
+		var speechBubble = game.add.sprite(180,310,'bubble');
+		object1.events.onInputDown.addOnce(function showNext() {
+			if (currentSpeech > 0) {
+				characterSpeech.destroy();
+				character.destroy();
+				speechBubble.destroy();
+				currentSpeech = 0
+				object1.events.onInputDown.addOnce(displaySpeech, this);
+			}
+		},this);
+	}
+	
+//function displaySpeech () {
+//	var character = game.add.sprite(10,300,'character');
+//	var speechBubble = game.add.sprite(180,310,'bubble');
+//	characterSpeech.text = "Hello World!";
+//}
+//
+//function endSpeech () {
+//	speechBubble.destroy();
+//	characterSpeech.destroy();
+//	character.destroy();
+//}
 </script>

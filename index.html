@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="style/style.css" type="text/css">
 	<script type="text/javascript" src="vendor/phaser.min.js"></script>
 	<script type="text/javascript" src="data/parameters.js"></script>
+	<script type="text/javascript" src="src/objects.js"></script>
 </head>
 <body>
 	<div id="ld38"></div>
@@ -30,12 +31,11 @@
 	function create() {
 		game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
 		bg = game.add.image(0, 0, 'bg');
-		object1 = game.add.sprite(400, 165, 'object1');
-		object1.inputEnabled = true;
-		console.log('foo');
-		object1.events.onInputOver.add(displaySpeech, this);
-		object1.events.onInputOut.add(hideSpeech, this);
-		object1.events.onInputDown.add(objectMenu, this);
+		item1 = game.add.sprite(400, 130, teacup.itemSprite);
+		item1.inputEnabled = true;
+		item1.events.onInputOver.add(displaySpeech, this);
+		item1.events.onInputOut.add(hideSpeech, this);
+		item1.events.onInputDown.add(objectMenu, this);
 	}
 	
 	function displaySpeech() {
@@ -44,13 +44,13 @@
 		characterSpeech.text = "Hello World!";
 		character = game.add.sprite(10,300,'character');
 		speechBubble = game.add.sprite(180,310,'bubble');
-//		object1.events.onInputDown.addOnce(function showNext() {
+//		item1.events.onInputDown.addOnce(function showNext() {
 //			if (currentSpeech > 0) {
 //				characterSpeech.destroy();
 //				character.destroy();
 //				speechBubble.destroy();
 //				currentSpeech = 0
-//				object1.events.onInputDown.addOnce(displaySpeech, this);
+//				item1.events.onInputDown.addOnce(displaySpeech, this);
 //			}
 //		},this);
 	}
@@ -73,18 +73,27 @@
 //			hideSpeech();
 //		}
 
-			object1.input.enableDrag();
-			object1.events.onDragStart.add(UItakeDisplay, this);
-			object1.events.onDragStop.add(UItakeHide, this);
+			item1.input.enableDrag();
+			item1.events.onDragStart.add(UItakeDisplay, this);
+			item1.events.onDragStop.add(UItakeHide, this);
 //		});
 	}
 	
 	function UItakeDisplay() {
 		hideSpeech();
+		objectPosX = item1.x; 
+		objectPosY = item1.y; 
 		UItake = game.add.sprite(320,500,'UItake');
 	}
 	function UItakeHide() {
 		UItake.destroy();
+		if (item1.y > 480){
+			item1.scale.setTo(0.5, 0.5);
+		}
+		else {
+			item1.x = objectPosX;
+			item1.y = objectPosY;
+		}
 	}
 	
 	

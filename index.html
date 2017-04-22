@@ -1,0 +1,60 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8" />
+  <title>LD38</title>
+  <!-- <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">-->
+  <link rel="stylesheet" href="style/style.css" type="text/css">
+  <script type="text/javascript" src="vendor/phaser.min.js"></script>
+  <script type="text/javascript" src="data/parameters.js"></script>
+</head>
+<body>
+  <div id="ld38"></div>
+<p>
+    A game made in less than 48h for the <a href="http://ldjam.com/">Ludum Dare 38</a> by <a href="http://twitter.com/ltemi">@ltemi</a>. 
+  <p>
+  <p>See on <a href="https://github.com/LtEmi/ld38">Github</a></p>
+</body>
+
+<script type="text/javascript">
+  var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS, 'ld38', { preload: preload, create: create });
+  var id = 0;
+    function preload() {
+    for (i in ASSETS) { game.load[ASSETS[i].type](ASSETS[i].name, ASSETS[i].src); };
+  }
+  function create() {
+    game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
+    level = null;
+ //   LEVELS = new Levels();
+ //   showTitleScreen();
+ //   var space_key = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+ //   space_key.onDown.add(showLevelsMenu, this);
+  }
+ // function showTitleScreen() {
+ //   titleScreen = game.add.image(0, 0, 'ld36_title_screen_001');
+ //   titleScreen.inputEnabled = true;
+ //   titleScreen.events.onInputDown.addOnce(initGame, this);
+ //   titleScreen.events.onInputDown.addOnce(function() {
+ //     Music.run();
+ //   }, this);
+ // }
+ // function showLevelsMenu() {
+ //   LEVELS.manageLevelsMenu();
+ //   if (LEVELS.hidden) {
+ //     initGame();
+ //   } else {
+ //     game.input.onDown.removeAll();
+ //     titleScreen.destroy();
+ //     if (level && level.grid) {
+ //       level.grid.cleanUp();
+ //     }
+ //   }
+ // }
+ // function initGame() {
+ //   self.game.add.image(0, 0, 'ld36_bg_001');
+ //   var slotsImg = self.game.add.image(580, 175, 'ld36_slots_001');
+ //   slotsImg.blendMode = PIXI.blendModes.COLOR_BURN;
+ //   Level.run();
+ // }
+</script>

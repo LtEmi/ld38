@@ -12,5 +12,5 @@ const ASSETS = [
   {"name":"UItake", "src":"assets/ld38_UI_001.png", "type":"image"},
   {"name":"UIleave", "src":"assets/ld38_UI_002.png", "type":"image"},
   {"name":"bubble", "src":"assets/ld38_bubble_001.png", "type":"image"},
-  {"name":"character", "src":"assets/ld38_character_001.png", "type":"image"}
+  {"name":"character1", "src":"assets/ld38_character_001.png", "type":"image"}
 ];

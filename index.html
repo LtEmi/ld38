@@ -31,68 +31,86 @@
 	function create() {
 		game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
 		bg = game.add.image(0, 0, 'bg');
-		item1 = game.add.sprite(400, 130, teacup.itemSprite);
-		item1.inputEnabled = true;
-		item1.events.onInputOver.add(displaySpeech, this);
-		item1.events.onInputOut.add(hideSpeech, this);
-		item1.events.onInputDown.add(objectMenu, this);
+		
+		//itemProperties(); todo
+		
+		teapotSprite = game.add.sprite(teapot.itemPosX, teapot.itemPosY, teapot.itemSprite);
+		teacupSprite = game.add.sprite(teacup.itemPosX, teacup.itemPosY, teacup.itemSprite);
+		teapotSprite.inputEnabled = true;
+		teacupSprite.inputEnabled = true;
+		
+		//itemActions(); todo
+	
+		teapotSprite.events.onInputOver.add(displaySpeech0, this);
+		teapotSprite.events.onInputOut.add(hideSpeech, this);
+		teapotSprite.events.onInputDown.add(objectMenu0, this);
+		
+		teacupSprite.events.onInputOver.add(displaySpeech1, this);
+		teacupSprite.events.onInputOut.add(hideSpeech, this);
+		teacupSprite.events.onInputDown.add(objectMenu1, this);
 	}
 	
-	function displaySpeech() {
+	// todo link speech value to items id
+	function displaySpeech0() {
 		currentSpeech ++;
 		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
 		characterSpeech.text = "Hello World!";
-		character = game.add.sprite(10,300,'character');
-		speechBubble = game.add.sprite(180,310,'bubble');
-//		item1.events.onInputDown.addOnce(function showNext() {
-//			if (currentSpeech > 0) {
-//				characterSpeech.destroy();
-//				character.destroy();
-//				speechBubble.destroy();
-//				currentSpeech = 0
-//				item1.events.onInputDown.addOnce(displaySpeech, this);
-//			}
-//		},this);
+		displayDoll1();
 	}
+	function displaySpeech1() {
+		currentSpeech ++;
+		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
+		characterSpeech.text = "Nope.";
+		displayDoll1();
+	}
+	
 	function hideSpeech() {
         characterSpeech.destroy();
-		character.destroy();
-		speechBubble.destroy();
+		hideDoll1();
 		currentSpeech = 0;
 	}
 	
-	function objectMenu() {
-//		UItake = game.add.sprite(150,10,'UItake');
-//		UIleave = game.add.sprite(450,10,'UIleave');
-//		UItake.inputEnabled = true;
-//		UIleave.inputEnabled = true;
-//		UIleave.events.onInputDown.addOnce(displaySpeech, this);
-//		UItake.events.onInputDown.addOnce(function dragObject(){
-
-//		if (currentSpeech > 0) {	
-//			hideSpeech();
-//		}
-
-			item1.input.enableDrag();
-			item1.events.onDragStart.add(UItakeDisplay, this);
-			item1.events.onDragStop.add(UItakeHide, this);
-//		});
+	function objectMenu0() {
+		teapotSprite.input.enableDrag();
+		teapotSprite.events.onDragStart.add(UItakeDisplay0, this);
+		teapotSprite.events.onDragStop.add(UItakeHide0, this);
+	}
+	function objectMenu1() {
+		teacupSprite.input.enableDrag();
+		teacupSprite.events.onDragStart.add(UItakeDisplay1, this);
+		teacupSprite.events.onDragStop.add(UItakeHide1, this);
 	}
 	
-	function UItakeDisplay() {
+	function UItakeDisplay0() {
 		hideSpeech();
-		objectPosX = item1.x; 
-		objectPosY = item1.y; 
+		objectPosX = teapotSprite.x; 
+		objectPosY = teapotSprite.y; 
 		UItake = game.add.sprite(320,500,'UItake');
 	}
-	function UItakeHide() {
+	function UItakeHide0() {
 		UItake.destroy();
-		if (item1.y > 480){
-			item1.scale.setTo(0.5, 0.5);
+		if (teapotSprite.y > 480){
+			teapotSprite.scale.setTo(0.5, 0.5);
 		}
 		else {
-			item1.x = objectPosX;
-			item1.y = objectPosY;
+			teapotSprite.x = objectPosX;
+			teapotSprite.y = objectPosY;
+		}
+	}
+	function UItakeDisplay1() {
+		hideSpeech();
+		objectPosX = teacupSprite.x; 
+		objectPosY = teacupSprite.y; 
+		UItake = game.add.sprite(320,500,'UItake');
+	}
+	function UItakeHide1() {
+		UItake.destroy();
+		if (teacupSprite.y > 480){
+			teacupSprite.scale.setTo(0.5, 0.5);
+		}
+		else {
+			teacupSprite.x = objectPosX;
+			teacupSprite.y = objectPosY;
 		}
 	}
 	

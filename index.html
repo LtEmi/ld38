@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="vendor/phaser.min.js"></script>
 	<script type="text/javascript" src="data/parameters.js"></script>
 	<script type="text/javascript" src="src/objects.js"></script>
+	<script type="text/javascript" src="src/inventory.js"></script>
 </head>
 <body>
 	<div id="ld38"></div>
@@ -30,48 +31,47 @@
 	
 	function create() {
 		game.stage.backgroundColor = GAME_BACKGROUND_COLOR;
+		splashScreen = game.add.image(0, 0, 'pagebg');
+		launchText = game.add.text(345, 450, 'click to start', { font: '14pt Lucida Sans', fill: TEXT_COLOR });
+		splashScreen.inputEnabled = true;
+		splashScreen.events.onInputDown.add(launch, this);
+	}
+		
+	function launch() {
+		splashScreen.destroy();
+		launchText.destroy();
 		bg = game.add.image(0, 0, 'bg');
-		
+		//items are displayed
 		//itemProperties(); todo
-		
 		teacupSprite = game.add.sprite(teacup.itemPosX, teacup.itemPosY, teacup.itemSprite);
 		teapotSprite = game.add.sprite(teapot.itemPosX, teapot.itemPosY, teapot.itemSprite);
-		teapotSprite.inputEnabled = true;
-		teacupSprite.inputEnabled = true;
-		
-		//itemActions(); todo
-	
-		teapotSprite.events.onInputOver.add(displaySpeech0, this);
-		teapotSprite.events.onInputOut.add(hideSpeech, this);
-		teapotSprite.events.onInputDown.add(objectMenu0, this);
-		
-		teacupSprite.events.onInputOver.add(displaySpeech1, this);
-		teacupSprite.events.onInputOut.add(hideSpeech, this);
-		teacupSprite.events.onInputDown.add(objectMenu1, this);
+		//items are made interactive
+		itemInventory0(); 
+		itemInventory1(); 
 	}
 	
-	// todo link speech value to items id
-	function displaySpeech0() {
+	// todo link speech value to items id instead of copypasting the code like a noob
+	function displaySpeech0() { //displays item description on hover
 		currentSpeech ++;
-		characterSpeech = game.add.text(185, 540, '', { fill: TEXT_COLOR });
+		characterSpeech = game.add.text(197, 555, '', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
 		characterSpeech.text = "This is a teapot.";
 		displayDoll1();
 	}
 	function displaySpeech1() {
 		currentSpeech ++;
-		characterSpeech = game.add.text(185, 540, '', { fill: TEXT_COLOR });
+		characterSpeech = game.add.text(197, 555, '', { font: '12pt Lucida Sans',  fill: TEXT_COLOR });
 		characterSpeech.text = "Nope. This is a teacup.";
 		displayDoll1();
 	}
 	
-	function hideSpeech() {
+	function hideSpeech() { //hides item description when hovering stops
         characterSpeech.destroy();
 		hideDoll1();
 		currentSpeech = 0;
 	}
 	
-	function objectMenu0() {
-		teapotSprite.input.enableDrag();
+	function objectMenu0() { //interactions on click
+		teapotSprite.input.enableDrag(); 
 		teapotSprite.events.onDragStart.add(UItakeDisplay0, this);
 		teapotSprite.events.onDragStop.add(UItakeHide0, this);
 	}
@@ -81,19 +81,25 @@
 		teacupSprite.events.onDragStop.add(UItakeHide1, this);
 	}
 	
-	function UItakeDisplay0() {
-		hideSpeech();
-		objectPosX = teapotSprite.x; 
-		objectPosY = teapotSprite.y; 
-		UItake = game.add.sprite(320,500,'UItake');
+	function UItakeDisplay0() { 
+		hideSpeech(); //hides item description while dragging item
+		objectPosX = teapotSprite.x; //saves original item's horizontal position
+		objectPosY = teapotSprite.y; //saves original item's vertical position
+		UItake = game.add.text(325, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
 	}
 	function UItakeHide0() {
 		UItake.destroy();
+		//if dragging stops on the UI bar, item is put in the inventory
 		if (teapotSprite.y > 480){
-			teapotSprite.scale.setTo(0.7, 0.7);
+			teapotSprite.scale.setTo(0.8, 0.8);
+			teapotSprite.x = 40;
+			teapotSprite.y = 90;
+			teapot.itemStored = true;
+			itemInventory0(); //special item-in-inventory actions
 		}
+		//if dragging stops elsewhere, item returns to its original position
 		else {
-			teapotSprite.x = objectPosX;
+			teapotSprite.x = objectPosX; 
 			teapotSprite.y = objectPosY;
 		}
 	}
@@ -101,12 +107,16 @@
 		hideSpeech();
 		objectPosX = teacupSprite.x; 
 		objectPosY = teacupSprite.y; 
-		UItake = game.add.sprite(320,500,'UItake');
+		UItake = game.add.text(325, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
 	}
 	function UItakeHide1() {
 		UItake.destroy();
 		if (teacupSprite.y > 480){
 			teacupSprite.scale.setTo(0.7, 0.7);
+			teacupSprite.x = 50;
+			teacupSprite.y = 50;
+			teacup.itemStored = true;
+			itemInventory1();
 		}
 		else {
 			teacupSprite.x = objectPosX;

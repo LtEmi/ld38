@@ -8,31 +8,33 @@ function Speech(sid, sname, ssprite1, ssprite2) {
 //characters list
 doll1 = new Speech(0, 'Doll', 'character1'); 
 
-function displayDoll1() { //display character, speech bubble & character's name
+function displayDoll1() { //displays character, speech bubble & character's name
 	doll1SpeechChara = game.add.sprite(450, 220, doll1.speechSprite1)
-	doll1SpeechName = game.add.text(185, 470, doll1.speechName);
+	doll1SpeechName = game.add.text(190, 527, doll1.speechName + ':', { font: 'bold 16pt Lucida Sans', fill: TEXT_COLOR });
 }
 
-function hideDoll1() { //hide character, speech bubble & character's name
+function hideDoll1() { //hides character, speech bubble & character's name
 	doll1SpeechChara.destroy();
 	doll1SpeechName.destroy();
 }
 
 // ITEM LIST
-function Item(iname, isprite, x, y) {
+function Item(iname, isprite, x, y, istored) {
 	this.itemName = iname;
 	this.itemSprite = isprite;
 	this.itemPosX = x;
 	this.itemPosY = y;
+	this.itemStored = istored;
 }
 
-teapot = new Item('Teapot', 'item2', 230, 240);
-teacup = new Item('Teacup', 'item1', 465, 270);
+teapot = new Item('Teapot', 'item2', 230, 240, false);
+teacup = new Item('Teacup', 'item1', 465, 270, false);
 
 var ITEMS = [];
 	ITEMS.push(teapot);
 	ITEMS.push(teacup);
 
+// NOT WORKING YET
 //function itemProperties(){
 	//for (ITEMS){
 	//	this.itemSprite.inputEnabled = true;

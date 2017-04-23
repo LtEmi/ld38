@@ -2,7 +2,7 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-	<title>LD38</title>
+	<title>Tea Party</title>
 	<!-- <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="assets/favicon.ico" type="image/x-icon">-->
 	<link rel="stylesheet" href="style/style.css" type="text/css">
@@ -14,7 +14,7 @@
 <body>
 	<div id="ld38"></div>
 	<p>
-		<a href="https://ldjam.com/">Ludum Dare 38</a> by <a href="https://twitter.com/ltemi">@ltemi</a>. 
+		Made in 48h for <a href="https://ldjam.com/">Ludum Dare 38</a> by <a href="https://twitter.com/ltemi">@ltemi</a>. 
 	</p>
 	<p>
 		See on <a href="https://github.com/LtEmi/ld38">Github</a>
@@ -50,43 +50,88 @@
 		itemInventory1(); 
 	}
 	
+	//ITEMS DESCRIPTIONS
 	// todo link speech value to items id instead of copypasting the code like a noob
-	function displaySpeech0() { //displays item description on hover
+	function displayItemDescription0() { //displays item description on hover
+		currentItemDescription = game.add.text(315, 550, teapot.itemDescription, { font: '12pt Lucida Sans', fill: TEXT_COLOR });
+	}
+	function displayItemDescription1() {
+		currentItemDescription = game.add.text(325, 550, teacup.itemDescription, { font: '12pt Lucida Sans',  fill: TEXT_COLOR });
+	}
+	
+	function hideItemDescription() { //hides item description when hovering stops
+        currentItemDescription.destroy();
+	}
+	
+	//DIALOGS
+	function displaySpeech0() { //displays a dialog on hover
 		currentSpeech ++;
 		characterSpeech = game.add.text(197, 555, '', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
 		characterSpeech.text = "This is a teapot.";
 		displayDoll1();
+		itemInventory0()
 	}
 	function displaySpeech1() {
 		currentSpeech ++;
 		characterSpeech = game.add.text(197, 555, '', { font: '12pt Lucida Sans',  fill: TEXT_COLOR });
 		characterSpeech.text = "Nope. This is a teacup.";
 		displayDoll1();
+		itemInventory1()
 	}
 	
-	function hideSpeech() { //hides item description when hovering stops
-        characterSpeech.destroy();
+	function hideSpeech() { //hides a dialog when hovering stops
+		characterSpeech.destroy();
 		hideDoll1();
 		currentSpeech = 0;
 	}
 	
+	//ACTIONS ON ITEMS (from the scene OR stored in inventory)
 	function objectMenu0() { //interactions on click
-		teapotSprite.input.enableDrag(); 
-		teapotSprite.events.onDragStart.add(UItakeDisplay0, this);
-		teapotSprite.events.onDragStop.add(UItakeHide0, this);
+		if (teapot.itemStored == false){
+			teapotSprite.input.enableDrag(); 
+			teapotSprite.events.onDragStart.add(UItakeDisplay0, this);
+			teapotSprite.events.onDragStop.add(UItakeHide0, this);
+		}
+		else{
+			teapotSprite.events.onInputDown.add(objectInInventory0, this);
+		}
 	}
 	function objectMenu1() {
-		teacupSprite.input.enableDrag();
-		teacupSprite.events.onDragStart.add(UItakeDisplay1, this);
-		teacupSprite.events.onDragStop.add(UItakeHide1, this);
+		if (teacup.itemStored == false){
+			teacupSprite.input.enableDrag();
+			teacupSprite.events.onDragStart.add(UItakeDisplay1, this);
+			teacupSprite.events.onDragStop.add(UItakeHide1, this);
+		}
+		else{
+			teacupSprite.events.onInputDown.add(objectInInventory1, this);
+		}
 	}
 	
+	//TAKE AN ITEM FROM THE SCENE
 	function UItakeDisplay0() { 
-		hideSpeech(); //hides item description while dragging item
-		objectPosX = teapotSprite.x; //saves original item's horizontal position
-		objectPosY = teapotSprite.y; //saves original item's vertical position
-		UItake = game.add.text(325, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
+		if (teapot.itemStored == false){
+			hideItemDescription(); //hides item description while dragging item
+			objectPosX0 = teapotSprite.x; //saves original item's horizontal position
+			objectPosY0 = teapotSprite.y; //saves original item's vertical position
+			UItake = game.add.text(330, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
+		}
+		else{
+			//
+		}
 	}
+	function UItakeDisplay1() {
+		if (teacup.itemStored == false){
+			hideItemDescription();
+			objectPosX1 = teacupSprite.x; 
+			objectPosY1 = teacupSprite.y; 
+			UItake = game.add.text(325, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
+		}
+		else{
+			//
+		}
+	}
+	
+	//STOP DRAGGING AN ITEM (put it in inventory OR let it in the scene)
 	function UItakeHide0() {
 		UItake.destroy();
 		//if dragging stops on the UI bar, item is put in the inventory
@@ -99,16 +144,10 @@
 		}
 		//if dragging stops elsewhere, item returns to its original position
 		else {
-			teapotSprite.x = objectPosX; 
-			teapotSprite.y = objectPosY;
+			teapotSprite.x = objectPosX0; 
+			teapotSprite.y = objectPosY0;
 		}
-	}
-	function UItakeDisplay1() {
-		hideSpeech();
-		objectPosX = teacupSprite.x; 
-		objectPosY = teacupSprite.y; 
-		UItake = game.add.text(325, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
-	}
+	}	
 	function UItakeHide1() {
 		UItake.destroy();
 		if (teacupSprite.y > 480){
@@ -119,10 +158,37 @@
 			itemInventory1();
 		}
 		else {
-			teacupSprite.x = objectPosX;
-			teacupSprite.y = objectPosY;
+			teacupSprite.x = objectPosX1;
+			teacupSprite.y = objectPosY1;
 		}
 	}
 	
+	//USE AN ITEM
+	function UIuseDisplay0() { 
+		hideItemDescription(); //hides item description while dragging item
+		hideSpeech(); //hides dialog while dragging item
+		objectPosX = teapotSprite.x; //saves original item's horizontal position
+		objectPosY = teapotSprite.y; //saves original item's vertical position
+	}
+	function UIuseDisplay1() { 
+		hideItemDescription(); 
+		hideSpeech(); 
+		objectPosX = teacupSprite.x; 
+		objectPosY = teacupSprite.y; 
+	}
 	
+	//STOP DRAGGING AN ITEM (item has been used OR put it back in inventory)
+	function UIuseHide0() {
+		//do something
+		itemInventory0(); //special item-in-inventory actions
+		//if dragging stops elsewhere, item returns to its original position
+		teapotSprite.x = objectPosX; 
+		teapotSprite.y = objectPosY;
+	}
+	function UIuseHide1() {
+		//do something
+		itemInventory1();
+		teacupSprite.x = objectPosX; 
+		teacupSprite.y = objectPosY;
+	}
 </script>

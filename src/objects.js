@@ -19,16 +19,17 @@ function hideDoll1() { //hides character, speech bubble & character's name
 }
 
 // ITEM LIST
-function Item(iname, isprite, x, y, istored) {
+function Item(iname, isprite, x, y, istored, idescription) {
 	this.itemName = iname;
 	this.itemSprite = isprite;
 	this.itemPosX = x;
 	this.itemPosY = y;
-	this.itemStored = istored;
+	this.itemStored = istored; //is item in inventory? 
+	this.itemDescription = idescription; //displayed on hover
 }
 
-teapot = new Item('Teapot', 'item2', 230, 240, false);
-teacup = new Item('Teacup', 'item1', 465, 270, false);
+teapot = new Item('Teapot', 'item2', 230, 240, false, 'A nice teapot full of hot tea.');
+teacup = new Item('Teacup', 'item1', 465, 270, false, 'A small teacup. Empty.');
 
 var ITEMS = [];
 	ITEMS.push(teapot);

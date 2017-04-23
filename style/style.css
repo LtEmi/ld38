@@ -2,9 +2,11 @@ body {
   margin: 0;
   width: 100%;
   color: #ccc;
-  background-color: pink;
+  background-color: #fff;
+  
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: Lucida Sans, sans-serif;
+  font-weight: bold;
   cursor: crosshair;
 }
 #ld38 {
@@ -12,5 +14,6 @@ body {
   margin: 30px auto;
 }
 a{
-  color: #fff;
+  color: #020;
+  text-decoration:none;
 }

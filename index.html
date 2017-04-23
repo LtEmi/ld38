@@ -13,7 +13,7 @@
 <body>
 	<div id="ld38"></div>
 	<p>
-		<a href="http://ldjam.com/">Ludum Dare 38</a> by <a href="https://twitter.com/ltemi">@ltemi</a>. 
+		<a href="https://ldjam.com/">Ludum Dare 38</a> by <a href="https://twitter.com/ltemi">@ltemi</a>. 
 	</p>
 	<p>
 		See on <a href="https://github.com/LtEmi/ld38">Github</a>
@@ -34,8 +34,8 @@
 		
 		//itemProperties(); todo
 		
-		teapotSprite = game.add.sprite(teapot.itemPosX, teapot.itemPosY, teapot.itemSprite);
 		teacupSprite = game.add.sprite(teacup.itemPosX, teacup.itemPosY, teacup.itemSprite);
+		teapotSprite = game.add.sprite(teapot.itemPosX, teapot.itemPosY, teapot.itemSprite);
 		teapotSprite.inputEnabled = true;
 		teacupSprite.inputEnabled = true;
 		
@@ -53,14 +53,14 @@
 	// todo link speech value to items id
 	function displaySpeech0() {
 		currentSpeech ++;
-		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
-		characterSpeech.text = "Hello World!";
+		characterSpeech = game.add.text(185, 540, '', { fill: TEXT_COLOR });
+		characterSpeech.text = "This is a teapot.";
 		displayDoll1();
 	}
 	function displaySpeech1() {
 		currentSpeech ++;
-		characterSpeech = game.add.text(270, 350, '', { fill: TEXT_COLOR });
-		characterSpeech.text = "Nope.";
+		characterSpeech = game.add.text(185, 540, '', { fill: TEXT_COLOR });
+		characterSpeech.text = "Nope. This is a teacup.";
 		displayDoll1();
 	}
 	
@@ -90,7 +90,7 @@
 	function UItakeHide0() {
 		UItake.destroy();
 		if (teapotSprite.y > 480){
-			teapotSprite.scale.setTo(0.5, 0.5);
+			teapotSprite.scale.setTo(0.7, 0.7);
 		}
 		else {
 			teapotSprite.x = objectPosX;
@@ -106,7 +106,7 @@
 	function UItakeHide1() {
 		UItake.destroy();
 		if (teacupSprite.y > 480){
-			teacupSprite.scale.setTo(0.5, 0.5);
+			teacupSprite.scale.setTo(0.7, 0.7);
 		}
 		else {
 			teacupSprite.x = objectPosX;

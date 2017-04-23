@@ -3,21 +3,18 @@ function Speech(sid, sname, ssprite1, ssprite2) {
 	this.speechId = sid;
 	this.speechName = sname;
 	this.speechSprite1 = ssprite1;
-	this.speechSprite2 = ssprite2;
 }
 
 //characters list
-doll1 = new Speech(0, 'BabyDoll', 'character1', 'bubble'); 
+doll1 = new Speech(0, 'Doll', 'character1'); 
 
 function displayDoll1() { //display character, speech bubble & character's name
-	doll1SpeechChara = game.add.sprite(10, 300, doll1.speechSprite1)
-	doll1SpeechBubble = game.add.sprite(180, 310, doll1.speechSprite2);
-	doll1SpeechName = game.add.text(300, 300, doll1.speechName);
+	doll1SpeechChara = game.add.sprite(450, 220, doll1.speechSprite1)
+	doll1SpeechName = game.add.text(185, 470, doll1.speechName);
 }
 
 function hideDoll1() { //hide character, speech bubble & character's name
 	doll1SpeechChara.destroy();
-	doll1SpeechBubble.destroy();
 	doll1SpeechName.destroy();
 }
 
@@ -29,8 +26,8 @@ function Item(iname, isprite, x, y) {
 	this.itemPosY = y;
 }
 
-teapot = new Item('Teapot', 'item2', 200, 130);
-teacup = new Item('Teacup', 'item1', 400, 130);
+teapot = new Item('Teapot', 'item2', 230, 240);
+teacup = new Item('Teacup', 'item1', 465, 270);
 
 var ITEMS = [];
 	ITEMS.push(teapot);

@@ -3,8 +3,8 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Tea Party</title>
-	<!-- <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="assets/favicon.ico" type="image/x-icon">-->
+	<link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="style/style.css" type="text/css">
 	<script type="text/javascript" src="vendor/phaser.min.js"></script>
 	<script type="text/javascript" src="data/parameters.js"></script>
@@ -22,9 +22,9 @@
 </body>
 
 <script type="text/javascript">
-	var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS, 'ld38', { preload: preload, create: create });
-	var ITEMSLIST = [];
-	var currentSpeech = 0;
+	var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.CANVAS, 'ld38', { preload: preload, create: create});
+	var ITEMSLIST = []; //sprites linked to items
+	var currentSpeech = 0; //allows to activate/deactivate dialog
 	
 	function preload() {
 		for (i in ASSETS) { 
@@ -44,6 +44,11 @@
 		splashScreen.destroy();
 		launchText.destroy();
 		bg = game.add.image(0, 0, 'bg');
+		
+		//var graphics = game.add.graphics(0, 0);//debug the trigger
+		//graphics.beginFill(0xFF0000, 1);
+		//graphics.drawCircle(410, 280, 75);
+		
 		//items are displayed
 		for (i in ITEMS){
 			itemsSprites = game.add.sprite(ITEMS[i].itemPosX, ITEMS[i].itemPosY, ITEMS[i].itemImage);
@@ -78,21 +83,23 @@
 
 	//ACTIONS ON ITEMS (from the scene OR stored in inventory)
 	function objectMenu() { //interactions on click
-		if (this.itemStored == false){
+		if (!this.itemStored){
 			ITEMSLIST[this.itemOrder].input.enableDrag(); 
 			ITEMSLIST[this.itemOrder].events.onDragStart.add(UItakeDisplay, ITEMS[this.itemOrder]);
 			ITEMSLIST[this.itemOrder].events.onDragStop.add(UItakeHide, ITEMS[this.itemOrder]);
 		}
 		else{
+			ITEMSLIST[this.itemOrder].events.onDragStart.removeAll(); //cleans events used previously
+			ITEMSLIST[this.itemOrder].events.onDragStop.removeAll();
 			ITEMSLIST[this.itemOrder].input.enableDrag();
 			ITEMSLIST[this.itemOrder].events.onDragStart.add(UIuseDisplay, ITEMS[this.itemOrder]); //drag item to use it
-			ITEMSLIST[this.itemOrder].events.onDragStop.add(UIuseHide, ITEMS[this.itemOrder]); //stop dragging item
+			ITEMSLIST[this.itemOrder].events.onDragStop.add(useItem, ITEMS[this.itemOrder]);
 		}
 	}
 		
 	//TAKE AN ITEM FROM THE SCENE
 	function UItakeDisplay() {
-		if (this.itemStored == false){
+		if (!this.itemStored){
 			hideItemDescription(); //hides item description while dragging item
 			UItake = game.add.text(330, 547, 'drag here to take', { font: '12pt Lucida Sans', fill: TEXT_COLOR });
 		}
@@ -125,17 +132,60 @@
 	function UIuseDisplay() { 
 		hideItemDescription(); //hides item description while dragging item
 		hideSpeech(); //hides dialog while dragging item
+		// scale teapot
+		if (this.itemOrder == 0){
+			ITEMSLIST[0].scale.setTo(1, 1);
+		}
 	}
 
 	//STOP DRAGGING AN ITEM (item has been used OR put it back in inventory)
-	function UIuseHide() {
+	function UIuseHide(item) {
 		
-		//do something
+		//do something ?
 		
 		itemInventory(); //special item-in-inventory actions
 		//if dragging stops elsewhere, item returns to its original position
-		ITEMSLIST[this.itemOrder].x = this.itemInventoryPosX;
-		ITEMSLIST[this.itemOrder].y = this.itemInventoryPosY;
+		ITEMSLIST[item.itemOrder].x = item.itemInventoryPosX;
+		ITEMSLIST[item.itemOrder].y = item.itemInventoryPosY;
+		// scale back teapot
+		if (item.itemOrder == 0){
+			ITEMSLIST[0].scale.setTo(teapot.itemInventoryScale, teapot.itemInventoryScale);
+		}
 	}
-
+	
+	//MAKE SOME TEA
+	function useItem() {		
+		currentItemUsed = false;
+		teacupHolder = new Phaser.Point(410,280); //where I should put the teacup
+		if (this.itemOrder == 1){
+			teacupDropDistance = ITEMSLIST[1].position.distance(teacupHolder); //distance between teacup & table
+			// if teacup is dropped on the table, it stays
+			if (teacupDropDistance < 50){
+				console.log('YEAH');
+				ITEMSLIST[1].scale.setTo(1,1);
+				ITEMSLIST[1].x = 390;
+				ITEMSLIST[1].y = 275; 
+				teacup.itemUsed = true;
+				currentItemUsed = true;
+				ITEMSLIST[i].inputEnabled = false;
+			}                       
+		}
+		if (this.itemOrder == 0){
+			teapotPourDistance = ITEMSLIST[0].position.distance(teacupHolder); //distance between teacup & table
+			// pour tea
+			if (teapotPourDistance < 50 && teacup.itemUsed == true){
+				console.log('YEAH 2');
+				//ITEMSLIST[1].x = 390;
+				//ITEMSLIST[1].y = 275; 
+				teapot.itemUsed = true;
+				currentItemUsed = true;
+				//ITEMSLIST[i].inputEnabled = false;
+			}                       
+		}
+		// else put it back in the inventory
+		if (!currentItemUsed){ // is the same as checking if boolean is false
+			UIuseHide(ITEMS[this.itemOrder]); //stop dragging item
+		}
+	}
+	
 </script>

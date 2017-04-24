@@ -1,6 +1,6 @@
 function itemInventory(){
 	for (i in ITEMS){
-		if (ITEMS[i].itemStored == false){
+		if (!ITEMS[i].itemStored){
 			ITEMSLIST[i].inputEnabled = true;
 			ITEMSLIST[i].events.onInputOver.add(displayItemDescription, ITEMS[i]); //displays item description on hover
 			ITEMSLIST[i].events.onInputOut.add(hideItemDescription, ITEMS[i]); //hides item description when hovering stops
@@ -19,9 +19,3 @@ function itemInventory(){
 		}
 	}
 }
-
-//function objectInInventory() {
-//	this.input.enableDrag();
-//	this.events.onDragStart.add(UIuseDisplay, this); //drag item to use it
-//	this.events.onDragStop.add(UIuseHide, this]); //stop dragging item
-//}

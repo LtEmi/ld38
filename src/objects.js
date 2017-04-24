@@ -19,11 +19,11 @@ function hideDoll1() { //hides character, speech bubble & character's name
 }
 
 var SPEECHLIST = [];
-	SPEECHLIST.push('This is a teapot.');
-	SPEECHLIST.push('Nope. This is a teacup.');
+	SPEECHLIST.push("Earl Grey, my favourite!");
+	SPEECHLIST.push("It's empty. I'd like some tea, my dear.");
 
 // ITEM LIST
-function Item(iorder, iimage, x, y, ix, iy, iscale, istored, idescription) {
+function Item(iorder, iimage, x, y, ix, iy, iscale, istored, iused, idescription) {
 	this.itemOrder = iorder;
 	this.itemImage = iimage;
 	this.itemPosX = x;
@@ -31,12 +31,12 @@ function Item(iorder, iimage, x, y, ix, iy, iscale, istored, idescription) {
 	this.itemInventoryPosX = ix; //position in inventory
 	this.itemInventoryPosY = iy;
 	this.itemInventoryScale = iscale; //scale in inventory
-	this.itemStored = istored; //is item in inventory? 
+	this.itemUsed = iused; //item has been used
 	this.itemDescription = idescription; //displayed on hover
 }
 
-teapot = new Item(0, 'item0', 230, 240, 40, 90, 0.8, false, 'A nice teapot full of hot tea.');
-teacup = new Item(1, 'item1', 465, 270, 50, 50, 0.7, false, 'A small teacup. Empty.');
+teapot = new Item(0, 'item0', 230, 240, 40, 90, 0.8, false, false, 'A nice teapot full of hot tea.');
+teacup = new Item(1, 'item1', 465, 270, 50, 50, 0.7, false, false, 'A small teacup. Empty.');
 
 var ITEMS = [];
 	ITEMS.push(teapot);
